@@ -18,6 +18,7 @@ npm install
 npm run start
 ```
 # 打包,当前默认Windows，其他平台请参考官网实现
+打包工具使用 [electron-builder](https://www.electron.build/)
 ```cmd
 npm run build
 ```
