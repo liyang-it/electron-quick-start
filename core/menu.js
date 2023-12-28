@@ -6,24 +6,43 @@ const {
 // 创建菜单
 function createMenu() {
   const template = [{
-      label: '打开网页端',
+      label: '使用默认浏览器打开网页',
       submenu: [{
-        label: 'Github部署',
+        label: 'Electron官网',
         click: async () => {
           const {
             shell
           } = require('electron')
-          await shell.openExternal('https://electronjs.org')
-        }
-      }, {
-        label: '服务器部署',
-        click: async () => {
-          const {
-            shell
-          } = require('electron')
+          // 使用系统默认浏览器打开页面
           await shell.openExternal('https://electronjs.org')
         }
       }],
+    },
+    {
+      label: 'Window窗口操作',
+      submenu: [{
+          label: '使用主窗口加载web主页页面',
+          click: async () => {
+            // 调用全局窗口数组获取主窗口,使用唯一标识获取
+            const win = global.sharedData.wins.find(f => f.isKey == 'main')
+
+            console.info('主窗口信息：', win)
+            // 加载指定页面
+            win.loadFile('./web/index.html')
+          }
+        },
+        {
+          label: '使用主窗口加载首页',
+          click: async () => {
+            // 调用全局窗口数组获取主窗口,使用唯一标识获取
+            const win = global.sharedData.wins.find(f => f.isKey == 'main')
+
+            console.info('主窗口信息：', win)
+            // 加载指定页面
+            win.loadFile('index.html')
+          }
+        }
+      ],
     },
     {
       label: '窗口',

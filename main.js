@@ -17,6 +17,8 @@ global.sharedData = {
   // 设置一个自定义变量，用于控制点击关闭应用是 确定退出应用还是 缩小致系统托盘
   // 默认 1(缩小至系统托盘), 2 直接退出应用
   quitType: 1,
+  // 全局窗口实例数组
+  wins: []
 };
 
 let mainWindow = null;
@@ -32,6 +34,10 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     }
   })
+  // 将当前窗口加入到全局窗口实例，共其他地方调用
+  // 增加自定义唯一标识，用于识别不同Window对象
+  mainWindow.isKey = 'main'
+  global.sharedData.wins.push(mainWindow)
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
