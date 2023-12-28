@@ -1,7 +1,9 @@
 // Modules to control application life and create native browser window
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  ipcMain,
+  dialog
 } = require('electron')
 
 
@@ -42,6 +44,9 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
+  // 打开开发者工具
+  mainWindow.webContents.openDevTools()
+
   // 监听窗口关闭事件
   mainWindow.on('close', (event) => {
     // 判断是退出应用还是缩小致系统托盘
@@ -57,14 +62,23 @@ function createWindow() {
     }
   });
 
+
   // 监听窗口关闭后的事件，清空对窗口对象的引用
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
 }
 app.whenReady().then(() => {
+  // 创建主窗口
   createWindow()
 
+  // 监听页面发送来的指令消息
+  ipcMain.on('electron-api-message-to-electron', (event, value) => {
+    const webContents = event.sender
+    const win = BrowserWindow.fromWebContents(webContents)
+    // win.setTitle(title)
+    dialog.showMessageBox(win, {title: '提示', message: 'ELectron接受到页面消息：' + value})
+  })
   // 创建系统顶部菜单
   menu.createMenu();
 
