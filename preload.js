@@ -25,7 +25,8 @@ window.addEventListener('DOMContentLoaded', () => {
   })
   contextBridge.exposeInMainWorld('electronAPI', {
     // 构建发送指令的API，用于前端js调用
-    sendElectronApiMessageToElectron: (value) => ipcRenderer.send('electron-api-message-to-electron', value)
+    sendElectronApiMessageToElectron: (value) => ipcRenderer.send('electron-api-message-to-electron', value),
+    sendOpenUrl: (url) => ipcRenderer.send('electron-api-message-openurl', url)
   })
 
 })

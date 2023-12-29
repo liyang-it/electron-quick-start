@@ -3,7 +3,8 @@ const {
   app,
   BrowserWindow,
   ipcMain,
-  dialog
+  dialog,
+  shell
 } = require('electron')
 
 
@@ -73,12 +74,20 @@ app.whenReady().then(() => {
   createWindow()
 
   // 监听页面发送来的指令消息
-  ipcMain.on('electron-api-message-to-electron', (event, value) => {
+  ipcMain.on('electron-api-message-to-electron', async (event, value) => {
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
     // win.setTitle(title)
     dialog.showMessageBox(win, {title: '提示', message: 'ELectron接受到页面消息：' + value})
   })
+
+  ipcMain.on('electron-api-message-openurl', async (event, url)  => {
+    const webContents = event.sender
+    const win = BrowserWindow.fromWebContents(webContents)
+    // 调用系统默认浏览器打开url
+    await shell.openExternal(url)
+  })
+
   // 创建系统顶部菜单
   menu.createMenu();
 

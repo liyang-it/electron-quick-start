@@ -51,7 +51,7 @@ function createMenu() {
 
             console.info('主窗口信息：', win)
             // 加载指定页面
-            win.loadURL('https://www.baidu.com/')
+            win.loadURL('https://blog.csdn.net/qq_40739917')
           }
         },
         {
